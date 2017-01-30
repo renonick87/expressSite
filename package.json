@@ -1,0 +1,30 @@
+{
+  "name": "expresssite",
+  "version": "1.0.0",
+  "description": "beginning to use express to modify information in a database",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Nick Reno",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "connect-redis": "^3.2.0",
+    "consolidate": "^0.14.5",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "jsonfile": "^2.4.0",
+    "lodash": "^4.17.4",
+    "path": "^0.12.7",
+    "prompt": "^1.0.0",
+    "redis": "^2.6.5",
+    "redis-server": "^1.1.0",
+    "response-time": "^2.3.2",
+    "snippet": "^0.1.0"
+  },
+  "devDependencies": {},
+  "bin": {
+    "snippet": "./app.js"
+  }
+}
