@@ -34,8 +34,26 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname + '/index.html'))
 })
 
-app.get('/:id', function(req, res){
-  console.log('successful call to /id')
+app.get('/create', function(req, res){
+  console.log('successful call to create/id')
+  client.set('key1', 'val1')
+  client.get('key1', redis.print)
+  res.sendFile(path.join(__dirname + '/id.html'))
+})
+app.get('/read', function(req, res){
+  console.log('successful call to read/id')
+  client.get('key1', redis.print)
+  res.sendFile(path.join(__dirname + '/id.html'))
+})
+app.get('/update', function(req, res){
+  console.log('successful call to update/id')
+  client.set('key1', 'val2')
+  client.get('key1', redis.print)
+  res.sendFile(path.join(__dirname + '/id.html'))
+})
+app.get('/delete', function(req, res){
+  client.del('key1')
+  console.log('successful call to delete/id')
   res.sendFile(path.join(__dirname + '/id.html'))
 })
 
