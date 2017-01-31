@@ -6,24 +6,14 @@ var express = require('express'),
   http = require('http'),
   bodyParser = require('body-parser');
 
-//monitor for commands being given
-//client.monitor(function(err, res){
-  //console.log('Entering monitoring mode.')
-//})
-
 app.use(bodyParser.urlencoded({ extended: true }))
-
-//monitor when commands are given to redis and log the time
-client.on('monitor', function(time, args, raw_reply){
-  console.log(time + ': ' + args)
-})
 
 //notify when redis is ready for commands
 client.on('ready', function(){
   console.log('Redis is ready')
 })
 
-//notify when there is an error
+//notify if there is an error with redis
 client.on('error', function(err){
   console.log('Error: ' + err)
 })
@@ -36,27 +26,6 @@ client.on('connect', function(){
 //main page
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname + '/index.html'))
-})
-
-app.get('/create', function(req, res){
-  console.log('successful call to create')
-  client.set('key1', 'val1')
-  client.get('key1', redis.print)
-  res.sendFile(path.join(__dirname + '/app/create.html'))
-})
-
-app.get('/read', function(req, res){
-  console.log('successful call to read')
-  client.get('key1', redis.print)
-  console.log(client.get('key1'))
-  res.sendFile(path.join(__dirname + '/app/read.html'))
-})
-
-app.get('/update', function(req, res){
-  console.log('successful call to update')
-  client.set('key1', 'val2')
-  client.get('key1', redis.print)
-  res.sendFile(path.join(__dirname + '/app/update.html'))
 })
 
 app.get('/delete', function(req, res){
@@ -74,7 +43,6 @@ app.get('/delete', function(req, res){
 
 app.post('/create/id', function(req, res){
   console.log('successful call to post id')
-  //res.sendFile(path.join(__dirname + '/app/id.html'))
   let json = {}
   json[req.body.id] = req.body.value
   console.log(json)
@@ -83,14 +51,11 @@ app.post('/create/id', function(req, res){
 
 app.get('/read/:id', function(req, res){
   console.log('successful call to get id')
-  //res.sendFile(path.join(__dirname + '/app/id.html'))
   let json = {},
   value = client.get(req.params.id, function(error, result){
     if (error) console.error('Error: ' + error)
     else console.log(result)
   })
-  //console.log(value)
-  res.send('wooh')
 })
 
 app.put('/update/id', function(req, res){
@@ -109,7 +74,6 @@ app.put('/update/id', function(req, res){
       }
     }
   })
-  //res.sendFile(path.join(__dirname + '/app/id.html'))
 })
 
 app.delete('/delete/id', function(req, res){
@@ -118,7 +82,6 @@ app.delete('/delete/id', function(req, res){
     if (error) console.log({ "success": false})
     else console.log({ "success": true})
   })
-  //res.sendFile(path.join(__dirname + '/app/id.html'))
 })
 
 //open up the server at port 3000 and log that the server is running properly
