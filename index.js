@@ -28,19 +28,6 @@ app.get('/', function(req, res){
   res.sendFile(path.join(__dirname + '/index.html'))
 })
 
-app.get('/delete', function(req, res){
-  console.log('successful call to delete')
-  let succ = client.del('key1')
-  //confirm that key was deleted
-  if(succ == true){
-    console.log(true)
-  } else {
-    console.log('Problem occurred deleting key')
-    res.send(false)
-  }
-  res.sendFile(path.join(__dirname + '/app/delete.html'))
-})
-
 app.post('/create/id', function(req, res){
   console.log('successful call to post id')
   let json = {}
