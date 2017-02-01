@@ -4,7 +4,8 @@ var express = require('express'),
   client = redis.createClient(),
   path = require('path'),
   http = require('http'),
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  controller = require('./app/controller.js');
 
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -25,51 +26,17 @@ client.on('connect', function(){
 
 //main page
 app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname + '/index.html'))
+  res.send('Server is ready to accept a command')
 })
 
-app.post('/create/id', function(req, res){
-  console.log('successful call to post id')
-  let json = {}
-  json[req.body.id] = req.body.value
-  console.log(json)
-  client.set(req.body.id, req.body.value)
+//log the method used
+app.all('/:id', function(req, res, next){
+  console.log(req.method)
+  next()
 })
 
-app.get('/read/:id', function(req, res){
-  console.log('successful call to get id')
-  let json = {},
-  value = client.get(req.params.id, function(error, result){
-    if (error) console.error('Error: ' + error)
-    else console.log(result)
-  })
-})
-
-app.put('/update/id', function(req, res){
-  console.log('successful call to put id')
-  let json = {}
-  let succ = client.get(req.body.id, function(error, result){
-    if (error) throw error
-    else {
-      if (result == null) console.log('That id does not exist and should be created rather than updated')
-      else{
-        client.set(req.body.id, req.body.value, function(error, result){
-          if (error) throw error
-        })
-        json[req.body.id] = req.body.value
-        console.log(json)
-      }
-    }
-  })
-})
-
-app.delete('/delete/id', function(req, res){
-  console.log('successful call to delete id')
-  client.del(req.body.id, function(error, result){
-    if (error) console.log({ "success": false})
-    else console.log({ "success": true})
-  })
-})
+//use controller file when handling an http request
+app.use('/:id', controller)
 
 //open up the server at port 3000 and log that the server is running properly
 var server = app.listen(3000, function(){
