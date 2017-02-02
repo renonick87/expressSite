@@ -20,6 +20,7 @@ client.on('connect', function(){
   console.log('connected')
 })
 
+//handles the create/post request
 router.post('/', function(req, res){
   let json = {}
   json.id = req.body.id
@@ -29,6 +30,7 @@ router.post('/', function(req, res){
   res.send(json)
 })
 
+//handles the read/get request
 router.get('/', function(req, res){
   client.get(req.params.id, function(error, result){
     if (error) throw error
@@ -39,11 +41,14 @@ router.get('/', function(req, res){
   })
 })
 
+//handles the update/put request
 router.put('/', function(req, res){
   let json ={}
+  //checks if the id exists
   client.get(req.body.id, function(error, result){
     if (error) throw error
     else {
+      //if the id does not exist, log message to create
       if (result == null) {
         console.log('That id does not exist and should be created before being updated')
         res.send('That id does not exist and should be created before being updated')
@@ -60,9 +65,11 @@ router.put('/', function(req, res){
   })
 })
 
+//handles the delete request
 router.delete('/', function(req, res){
   client.del(req.body.id, function(error, result){
     let json = {}
+    //if there was an error deleting, send false
     if (error) {
       json.success = false
       console.log(json)

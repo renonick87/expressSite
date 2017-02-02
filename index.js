@@ -3,6 +3,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   controller = require('./app/controller.js');
 
+//middleware that allows use of request/response objects
 app.use(bodyParser.urlencoded({ extended: true }))
 
 //main page
