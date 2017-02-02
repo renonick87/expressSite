@@ -1,28 +1,9 @@
 var express = require('express'),
   app = express(),
-  redis = require('redis'),
-  client = redis.createClient(),
-  path = require('path'),
-  http = require('http'),
   bodyParser = require('body-parser'),
   controller = require('./app/controller.js');
 
 app.use(bodyParser.urlencoded({ extended: true }))
-
-//notify when redis is ready for commands
-client.on('ready', function(){
-  console.log('Redis is ready')
-})
-
-//notify if there is an error with redis
-client.on('error', function(err){
-  console.log('Error: ' + err)
-})
-
-//notify when client is connected to redis
-client.on('connect', function(){
-  console.log('connected')
-})
 
 //main page
 app.get('/', function(req, res){
