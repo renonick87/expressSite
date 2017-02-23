@@ -32,7 +32,7 @@ router.post('/', function(req, res){
 
 //handles the read/get request
 router.get('/', function(req, res){
-  client.get(req.params.id, function(error, result){
+  client.get(req.query.id, function(error, result){
     if (error) throw error
     else{
       console.log({"value": result})
@@ -70,16 +70,9 @@ router.delete('/', function(req, res){
   client.del(req.body.id, function(error, result){
     let json = {}
     //if there was an error deleting, send false
-    if (error) {
-      json.success = false
-      console.log(json)
-      res.send(json)
-    }
-    else {
-      json.success = true
-      console.log(json)
-      res.send(json)
-    }
+    json.success = !error
+    console.log(json)
+    res.send(json)
   })
 })
 

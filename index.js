@@ -12,15 +12,17 @@ app.get('/', function(req, res){
 })
 
 //log the method used
-app.all('/:id', function(req, res, next){
+app.all('/id', function(req, res, next){
   console.log(req.method)
   next()
 })
 
 //use controller file when handling an http request
-app.use('/:id', controller)
+app.use('/id', controller)
 
 //open up the server at port 3000 and log that the server is running properly
 var server = app.listen(3000, function(){
   console.log('Server running at http://localhost:' + server.address().port)
 })
+
+console.log('wooh, develop branch')
