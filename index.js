@@ -24,5 +24,3 @@ app.use('/id', controller)
 var server = app.listen(3000, function(){
   console.log('Server running at http://localhost:' + server.address().port)
 })
-
-console.log('wooh, develop branch')
