@@ -3,7 +3,8 @@ var express = require('express'),
     mergeParams: true
   }),
   redis = require('redis'),
-  client = redis.createClient();
+  host = process.env.REDIS_PORT_6379_TCP_ADDR || '127.0.0.1',
+  client = redis.createClient(6379, host);
 
 //notify when redis is ready for commands
 client.on('ready', function(){
